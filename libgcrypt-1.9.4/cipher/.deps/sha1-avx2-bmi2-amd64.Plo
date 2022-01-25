@@ -1,0 +1,8 @@
+sha1-avx2-bmi2-amd64.lo: sha1-avx2-bmi2-amd64.S \
+ /usr/include/stdc-predef.h ../config.h asm-common-amd64.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:
+
+asm-common-amd64.h:
