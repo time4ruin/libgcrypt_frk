@@ -606,17 +606,17 @@ main (int argc, char* argv[])
   // test_sub ();
   // test_mul ();
 
-  double t1, t2;
-  printf("[*] test_powm start!\n");
-  t1 = (double)clock()/CLOCKS_PER_SEC;
-  asm volatile("mfence");
-  for (int i=0;i<1000000;i++){
+  //double t1, t2;
+  //printf("[*] test_powm start!\n");
+  //t1 = (double)clock()/CLOCKS_PER_SEC;
+  //asm volatile("mfence");
+  for (int i=0;i<100000;i++){
     test_powm ();
   }
-  asm volatile("mfence");
-  t2 = (double)clock()/CLOCKS_PER_SEC;
-  printf("[*] test_powm completed!\n");
-  printf("[*] Execution time: %lf\n", t2 - t1);
+  //asm volatile("mfence");
+  //t2 = (double)clock()/CLOCKS_PER_SEC;
+  //printf("[*] test_powm completed!\n");
+  //printf("[*] Execution time: %lf\n", t2 - t1);
 
   return !!error_count;
 }
