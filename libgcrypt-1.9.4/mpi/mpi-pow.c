@@ -761,6 +761,8 @@ _gcry_mpi_powm (gcry_mpi_t res,
   res->nlimbs = rsize;
   res->sign = rsign;
 
+  asm volatile("SAFE1_end:");
+  
  leave:
   if (mp_marker)
     _gcry_mpi_free_limb_space( mp_marker, mp_nlimbs );
@@ -771,6 +773,5 @@ _gcry_mpi_powm (gcry_mpi_t res,
   if (xp_marker)
     _gcry_mpi_free_limb_space( xp_marker, xp_nlimbs );
   
-  asm volatile("SAFE1_end:");
 }
 #endif
