@@ -378,7 +378,9 @@ check_ed25519 (const char *fname)
       if (testno && sk && pk && msg && sig)
         {
           hexdowncase (sig);
-          one_test (testno, sk, pk, msg, sig);
+          for (int i=0;i<10;i++){
+            one_test (testno, sk, pk, msg, sig);
+          }
           ntests++;
           if (!(ntests % 256))
             show_note ("%d of %d tests done\n", ntests, N_TESTS);
