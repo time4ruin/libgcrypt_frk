@@ -405,7 +405,7 @@ void
 _gcry_mpi_powm (gcry_mpi_t res,
                 gcry_mpi_t base, gcry_mpi_t expo, gcry_mpi_t mod)
 {
-  asm volatile("SAFE1_start:");
+  //asm volatile("SAFE1_start:");
   // printf("[*] _gcry_mpi_powm called!\n");
   /* Pointer to the limbs of the arguments, their size and signs. */
   mpi_ptr_t  rp, ep, mp, bp;
@@ -516,7 +516,6 @@ _gcry_mpi_powm (gcry_mpi_t res,
       res->sign = 0;
       goto leave;
     }
-
 
   /* Make BASE, EXPO not overlap with RES.  We don't need to check MOD
      because that has already been copied to the MP var.  */
@@ -761,7 +760,7 @@ _gcry_mpi_powm (gcry_mpi_t res,
   res->nlimbs = rsize;
   res->sign = rsign;
 
-  asm volatile("SAFE1_end:");
+  //asm volatile("SAFE1_end:");
   
  leave:
   if (mp_marker)

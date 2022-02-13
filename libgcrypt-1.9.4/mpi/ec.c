@@ -1678,6 +1678,7 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
                         gcry_mpi_t scalar, mpi_point_t point,
                         mpi_ec_t ctx)
 {
+  asm volatile("SAFE1_start:");
   gcry_mpi_t x1, y1, z1, k, h, yy;
   unsigned int i, loops;
   mpi_point_struct p1, p2, p1inv;
@@ -1714,7 +1715,7 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
           mpi_point_resize (point, ctx);
         }
 
-      if (mpi_is_secure (scalar))
+      if (0)
         {
           /* If SCALAR is in secure memory we assume that it is the
              secret key we use constant time operation.  */
@@ -1782,9 +1783,11 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
           scalar_copied = 1;
 
           raw = _gcry_mpi_get_opaque_copy (scalar, &n);
-          if ((n+7)/8 != (pbits+7)/8)
+          if ((n+7)/8 != (pbits+7)/8){
             log_fatal ("scalar size (%d) != prime size (%d)\n",
                        (n+7)/8, (pbits+7)/8);
+            asm volatile("SAFE1_end:");
+          }
 
           reverse_buffer (raw, (n+7)/8);
           if ((pbits % 8))
@@ -1936,6 +1939,7 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
   point_free (&p1inv);
   mpi_free (h);
   mpi_free (k);
+
 }
 
 
