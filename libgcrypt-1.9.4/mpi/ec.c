@@ -1678,7 +1678,6 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
                         gcry_mpi_t scalar, mpi_point_t point,
                         mpi_ec_t ctx)
 {
-  asm volatile("SAFE1_start:");
   gcry_mpi_t x1, y1, z1, k, h, yy;
   unsigned int i, loops;
   mpi_point_struct p1, p2, p1inv;
@@ -1734,6 +1733,7 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
         }
       else
         {
+            asm volatile("SAFE1_start:");
           if (ctx->model == MPI_EC_EDWARDS)
             {
               mpi_point_resize (result, ctx);
@@ -1746,6 +1746,8 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
               if (mpi_test_bit (scalar, j))
                 _gcry_mpi_ec_add_points (result, result, point, ctx);
             }
+
+            asm volatile("SAFE1_end:");
         }
       return;
     }
@@ -1786,7 +1788,6 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
           if ((n+7)/8 != (pbits+7)/8){
             log_fatal ("scalar size (%d) != prime size (%d)\n",
                        (n+7)/8, (pbits+7)/8);
-            asm volatile("SAFE1_end:");
           }
 
           reverse_buffer (raw, (n+7)/8);
