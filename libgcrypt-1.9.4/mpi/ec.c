@@ -1733,7 +1733,6 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
         }
       else
         {
-            asm volatile("SAFE1_start:");
           if (ctx->model == MPI_EC_EDWARDS)
             {
               mpi_point_resize (result, ctx);
@@ -1743,11 +1742,14 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
           for (j=nbits-1; j >= 0; j--)
             {
               _gcry_mpi_ec_dup_point (result, result, ctx);
-              if (mpi_test_bit (scalar, j))
+              asm volatile("SAFE1_start:");
+              if (mpi_test_bit (scalar, j)){
+                asm volatile("SAFE1_end:");
                 _gcry_mpi_ec_add_points (result, result, point, ctx);
+              }
+              asm volatile("SAFE2_end:");
             }
 
-            asm volatile("SAFE1_end:");
         }
       return;
     }
