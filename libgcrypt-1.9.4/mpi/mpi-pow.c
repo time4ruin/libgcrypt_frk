@@ -405,7 +405,6 @@ void
 _gcry_mpi_powm (gcry_mpi_t res,
                 gcry_mpi_t base, gcry_mpi_t expo, gcry_mpi_t mod)
 {
-  //asm volatile("SAFE1_start:");
   // printf("[*] _gcry_mpi_powm called!\n");
   /* Pointer to the limbs of the arguments, their size and signs. */
   mpi_ptr_t  rp, ep, mp, bp;
@@ -759,8 +758,6 @@ _gcry_mpi_powm (gcry_mpi_t res,
   gcry_assert (res->d == rp);
   res->nlimbs = rsize;
   res->sign = rsign;
-
-  //asm volatile("SAFE1_end:");
   
  leave:
   if (mp_marker)
